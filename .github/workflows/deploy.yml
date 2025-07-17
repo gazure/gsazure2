@@ -1,0 +1,122 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: your-bucket-name-here
+  # Uncomment and set if using CloudFront
+  # CLOUDFRONT_DISTRIBUTION_ID: your-distribution-id-here
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: wasm32-unknown-unknown
+    
+    - name: Cache Rust dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+    
+    - name: Install Dioxus CLI
+      run: |
+        if ! command -v dx &> /dev/null; then
+          cargo install dioxus-cli
+        fi
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install npm dependencies
+      run: npm ci
+    
+    - name: Build Tailwind CSS
+      run: npx tailwindcss -i ./tailwind.css -o ./assets/tailwind.css --minify
+    
+    - name: Build project
+      run: dx build --release --platform web
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: Deploy to S3
+      run: |
+        # Sync files to S3
+        aws s3 sync dist/ s3://${{ env.S3_BUCKET }}/ \
+          --delete \
+          --exclude ".git/*" \
+          --exclude "*.map" \
+          --exclude ".DS_Store"
+        
+        # Set cache control for HTML files (shorter cache)
+        aws s3 cp s3://${{ env.S3_BUCKET }}/ s3://${{ env.S3_BUCKET }}/ \
+          --exclude "*" \
+          --include "*.html" \
+          --recursive \
+          --metadata-directive REPLACE \
+          --cache-control "public, max-age=3600"
+        
+        # Set cache control and content type for JS files
+        aws s3 cp s3://${{ env.S3_BUCKET }}/ s3://${{ env.S3_BUCKET }}/ \
+          --exclude "*" \
+          --include "*.js" \
+          --recursive \
+          --metadata-directive REPLACE \
+          --content-type "application/javascript" \
+          --cache-control "public, max-age=31536000, immutable"
+        
+        # Set cache control and content type for WASM files
+        aws s3 cp s3://${{ env.S3_BUCKET }}/ s3://${{ env.S3_BUCKET }}/ \
+          --exclude "*" \
+          --include "*.wasm" \
+          --recursive \
+          --metadata-directive REPLACE \
+          --content-type "application/wasm" \
+          --cache-control "public, max-age=31536000, immutable"
+        
+        # Set cache control for CSS files
+        aws s3 cp s3://${{ env.S3_BUCKET }}/ s3://${{ env.S3_BUCKET }}/ \
+          --exclude "*" \
+          --include "*.css" \
+          --recursive \
+          --metadata-directive REPLACE \
+          --content-type "text/css" \
+          --cache-control "public, max-age=604800"
+    
+    - name: Invalidate CloudFront cache
+      if: env.CLOUDFRONT_DISTRIBUTION_ID != ''
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/*"
+    
+    - name: Deployment summary
+      run: |
+        echo "🚀 Deployment completed!"
+        echo "Website URL: http://${{ env.S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com"
