@@ -69,7 +69,7 @@ pub fn Button(
         "cursor-pointer"
     };
 
-    let class = format!("{} {} {}", base_classes, variant_classes, disabled_classes);
+    let class = format!("{base_classes} {variant_classes} {disabled_classes}");
 
     rsx! {
         button {
@@ -93,7 +93,7 @@ pub fn GlassCard(children: Element, #[props(default = "")] class: &'static str) 
     let combined_class = if class.is_empty() {
         "glass-morphism p-8 rounded-xl".to_string()
     } else {
-        format!("glass-morphism p-8 rounded-xl {}", class)
+        format!("glass-morphism p-8 rounded-xl {class}")
     };
 
     rsx! {
@@ -133,8 +133,7 @@ pub fn GradientHeading(children: Element, #[props(default = "")] class: &'static
         "bg-gradient-to-r from-azure-600 to-ocean-deep bg-clip-text text-transparent".to_string()
     } else {
         format!(
-            "bg-gradient-to-r from-azure-600 to-ocean-deep bg-clip-text text-transparent {}",
-            class
+            "bg-gradient-to-r from-azure-600 to-ocean-deep bg-clip-text text-transparent {class}"
         )
     };
 
