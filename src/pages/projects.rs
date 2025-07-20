@@ -37,8 +37,8 @@ pub fn Projects() -> Element {
 
                         div { class: "flex flex-wrap gap-2 mb-6",
                             span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Rust" }
-                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "WebAssembly" }
-                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "WebGL" }
+                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Tauri" }
+                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Leptos" }
                         }
 
                         a {
@@ -66,9 +66,10 @@ pub fn Projects() -> Element {
                         }
 
                         div { class: "flex flex-wrap gap-2 mb-6",
-                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Python" }
-                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Redis" }
+                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Rust" }
+                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Dioxus" }
                             span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Docker" }
+                            span { class: "px-3 py-1 bg-azure-100 text-azure-700 rounded-full text-sm font-medium", "Fargate (for now)" }
                         }
 
                         a {
