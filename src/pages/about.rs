@@ -6,17 +6,17 @@ use crate::components::{PageContainer, GradientHeading, SectionHeading, GlassCar
 pub fn About() -> Element {
     rsx! {
         PageContainer {
-            GradientHeading { 
+            GradientHeading {
                 class: "text-5xl sm:text-6xl font-bold text-center mb-12",
                 "About Me"
             }
 
             CenteredContainer {
 
-                GlassCard { 
+                GlassCard {
                     class: "text-center mb-12 p-6",
                     p { class: "text-xl text-azure-700",
-                        "I'm Grant Azure. I write code sometimes and have terrible SEO"
+                        "I write code sometimes and have a name with terrible SEO"
                     }
                 }
 
@@ -24,28 +24,23 @@ pub fn About() -> Element {
 
                 div { class: "grid grid-cols-2 md:grid-cols-3 gap-4 mb-12",
                     SkillBadge { text: "Rust", variant: SkillVariant::Primary }
-                    SkillBadge { text: "JavaScript/TypeScript", variant: SkillVariant::Secondary }
-                    SkillBadge { text: "React", variant: SkillVariant::Glass }
                     SkillBadge { text: "Dioxus", variant: SkillVariant::Primary }
                     SkillBadge { text: "PostgreSQL", variant: SkillVariant::Glass }
                     SkillBadge { text: "Docker", variant: SkillVariant::Secondary }
+                    SkillBadge { text: "Golang", variant: SkillVariant::Primary}
+                    SkillBadge { text: "Distributed Systems", variant: SkillVariant::Primary}
+                    SkillBadge { text: "Python", variant: SkillVariant::Primary }
+                    SkillBadge { text: "AWS", variant: SkillVariant::Primary }
+                    SkillBadge { text: "Infrastructure", variant: SkillVariant::Glass}
+
                 }
 
                 SectionHeading { icon: "🚀", text: "Experience" }
 
-                GlassCard { 
+                GlassCard {
                     class: "mb-12 text-center",
                     p { class: "text-lg text-azure-700",
-                        "Spent 9 years making Tripit run well. Now at a startup."
-                    }
-                }
-
-                SectionHeading { icon: "💌", text: "Get in Touch" }
-
-                GlassCard { 
-                    class: "text-center",
-                    p { class: "text-lg text-azure-700 italic",
-                        "if you know, you know."
+                        "Spent 9 running infrastructure for Tripit. Now building distributed systems at a starup."
                     }
                 }
             }
