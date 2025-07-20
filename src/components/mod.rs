@@ -1,5 +1,5 @@
-use dioxus::prelude::*;
 use crate::Route;
+use dioxus::prelude::*;
 
 // Components are automatically exported when marked as pub
 
@@ -56,21 +56,21 @@ pub fn Button(
     #[props(default = false)] disabled: bool,
 ) -> Element {
     let base_classes = "px-6 py-3 rounded-lg shadow-lg transition-all duration-200";
-    
+
     let variant_classes = match variant {
         ButtonVariant::Primary => "bg-azure-gradient text-white hover:shadow-xl transform hover:-translate-y-0.5",
         ButtonVariant::Secondary => "glass-morphism text-azure-700 hover:bg-white/10 hover:shadow-xl transform hover:-translate-y-0.5",
         ButtonVariant::Ghost => "text-azure-700 hover:bg-azure-100 hover:shadow-md",
     };
-    
+
     let disabled_classes = if disabled {
         "opacity-50 cursor-not-allowed"
     } else {
         "cursor-pointer"
     };
-    
+
     let class = format!("{} {} {}", base_classes, variant_classes, disabled_classes);
-    
+
     rsx! {
         button {
             class: "{class}",
@@ -95,9 +95,9 @@ pub fn GlassCard(children: Element, #[props(default = "")] class: &'static str) 
     } else {
         format!("glass-morphism p-8 rounded-xl {}", class)
     };
-    
+
     rsx! {
-        div { 
+        div {
             class: "{combined_class}",
             {children}
         }
@@ -108,7 +108,7 @@ pub fn GlassCard(children: Element, #[props(default = "")] class: &'static str) 
 #[component]
 pub fn FloatingOrb(size: &'static str, position: &'static str) -> Element {
     rsx! {
-        div { 
+        div {
             class: "floating-orb {size} {position}"
         }
     }
@@ -118,7 +118,7 @@ pub fn FloatingOrb(size: &'static str, position: &'static str) -> Element {
 #[component]
 pub fn SectionHeading(icon: &'static str, text: &'static str) -> Element {
     rsx! {
-        h2 { 
+        h2 {
             class: "text-3xl font-bold text-azure-800 mb-6 flex items-center justify-center gap-2",
             span { {icon} }
             span { {text} }
@@ -132,11 +132,14 @@ pub fn GradientHeading(children: Element, #[props(default = "")] class: &'static
     let combined_class = if class.is_empty() {
         "bg-gradient-to-r from-azure-600 to-ocean-deep bg-clip-text text-transparent".to_string()
     } else {
-        format!("bg-gradient-to-r from-azure-600 to-ocean-deep bg-clip-text text-transparent {}", class)
+        format!(
+            "bg-gradient-to-r from-azure-600 to-ocean-deep bg-clip-text text-transparent {}",
+            class
+        )
     };
-    
+
     rsx! {
-        h1 { 
+        h1 {
             class: "{combined_class}",
             {children}
         }
@@ -152,11 +155,11 @@ pub fn SocialLink(href: &'static str, platform: &'static str) -> Element {
             target: "_blank",
             rel: "noopener noreferrer",
             class: "group",
-            div { 
+            div {
                 class: "p-3 glass-morphism rounded-full group-hover:bg-white/20 transition-all duration-200",
-                span { 
-                    class: "text-azure-600 group-hover:text-azure-800", 
-                    {platform} 
+                span {
+                    class: "text-azure-600 group-hover:text-azure-800",
+                    {platform}
                 }
             }
         }
@@ -179,15 +182,15 @@ pub fn SkillBadge(text: &'static str, variant: SkillVariant) -> Element {
         SkillVariant::Secondary => "bg-ocean-gradient text-white",
         SkillVariant::Glass => "glass-morphism text-azure-700 hover:bg-white/20",
     };
-    
+
     rsx! {
-        div { 
+        div {
             class: "group",
-            div { 
+            div {
                 class: "{variant_class} p-4 rounded-lg text-center shadow-lg group-hover:shadow-xl transform group-hover:-translate-y-1 transition-all duration-200",
-                span { 
-                    class: "font-semibold", 
-                    {text} 
+                span {
+                    class: "font-semibold",
+                    {text}
                 }
             }
         }
@@ -198,7 +201,7 @@ pub fn SkillBadge(text: &'static str, variant: SkillVariant) -> Element {
 #[component]
 pub fn PageContainer(children: Element, #[props(default = true)] show_orbs: bool) -> Element {
     rsx! {
-        div { 
+        div {
             class: "min-h-screen py-20 px-4",
             if show_orbs {
                 // Decorative background elements
@@ -213,9 +216,12 @@ pub fn PageContainer(children: Element, #[props(default = true)] show_orbs: bool
 
 /// Center-aligned container with max width
 #[component]
-pub fn CenteredContainer(children: Element, #[props(default = "max-w-4xl")] max_width: &'static str) -> Element {
+pub fn CenteredContainer(
+    children: Element,
+    #[props(default = "max-w-4xl")] max_width: &'static str,
+) -> Element {
     rsx! {
-        div { 
+        div {
             class: "{max_width} mx-auto",
             {children}
         }

@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 mod pages;
 use pages::{About, Blog, Projects};
 pub mod components;
-use components::{NavLink, PrimaryButton, SecondaryButton, SocialLink, GradientHeading};
+use components::{GradientHeading, NavLink, PrimaryButton, SecondaryButton, SocialLink};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -49,7 +49,7 @@ fn Navbar() -> Element {
                 div { class: "floating-orb w-80 h-80 bottom-0 left-1/3" }
                 div { class: "wave-pattern" }
             }
-            
+
             // Navigation bar
             nav { class: "relative z-10 glass-morphism border-b border-azure-200/20 sticky top-0",
                 div { class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
@@ -63,7 +63,7 @@ fn Navbar() -> Element {
                                 "GA"
                             }
                         }
-                        
+
                         // Navigation links
                         div { class: "flex space-x-8",
                             NavLink { to: Route::About {}, "About" }
@@ -119,11 +119,11 @@ async fn echo_server(input: String) -> Result<String, ServerFnError> {
 fn Home() -> Element {
     rsx! {
         div { class: "min-h-screen flex items-center justify-center px-4",
-            
+
             div { class: "relative z-10 text-center max-w-3xl mx-auto",
-                
+
                 // Main heading with gradient text
-                GradientHeading { 
+                GradientHeading {
                     class: "text-6xl sm:text-7xl lg:text-8xl font-bold mb-4 text-glow",
                     "Grant Azure"
                 }

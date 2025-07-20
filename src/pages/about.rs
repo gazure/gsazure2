@@ -1,5 +1,8 @@
+use crate::components::{
+    CenteredContainer, GlassCard, GradientHeading, PageContainer, SectionHeading, SkillBadge,
+    SkillVariant,
+};
 use dioxus::prelude::*;
-use crate::components::{PageContainer, GradientHeading, SectionHeading, GlassCard, SkillBadge, SkillVariant, CenteredContainer};
 
 /// About page
 #[component]
