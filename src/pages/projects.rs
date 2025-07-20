@@ -16,7 +16,7 @@ pub fn Projects() -> Element {
             }
 
             p { class: "text-lg text-azure-700 text-center mb-12 max-w-2xl mx-auto",
-                "Here are some of the projects I've worked on. Each represents a unique challenge and learning experience."
+                "Here are some of the projects I've worked on."
             }
 
             div { class: "max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
