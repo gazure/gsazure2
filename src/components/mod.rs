@@ -58,8 +58,12 @@ pub fn Button(
     let base_classes = "px-6 py-3 rounded-lg shadow-lg transition-all duration-200";
 
     let variant_classes = match variant {
-        ButtonVariant::Primary => "bg-azure-gradient text-white hover:shadow-xl transform hover:-translate-y-0.5",
-        ButtonVariant::Secondary => "glass-morphism text-azure-700 hover:bg-white/10 hover:shadow-xl transform hover:-translate-y-0.5",
+        ButtonVariant::Primary => {
+            "bg-azure-gradient text-white hover:shadow-xl transform hover:-translate-y-0.5"
+        }
+        ButtonVariant::Secondary => {
+            "glass-morphism text-azure-700 hover:bg-white/10 hover:shadow-xl transform hover:-translate-y-0.5"
+        }
         ButtonVariant::Ghost => "text-azure-700 hover:bg-azure-100 hover:shadow-md",
     };
 

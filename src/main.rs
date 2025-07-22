@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 
-mod pages;
 mod logging;
+mod pages;
 use pages::{About, Blog, Projects};
 pub mod components;
 use components::{GradientHeading, NavLink, PrimaryButton, SecondaryButton, SocialLink};
