@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 
 mod pages;
+mod logging;
 use pages::{About, Blog, Projects};
 pub mod components;
 use components::{GradientHeading, NavLink, PrimaryButton, SecondaryButton, SocialLink};
@@ -25,6 +26,18 @@ const MAIN_CSS: Asset = asset!("/assets/main.css");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
 fn main() {
+    // Initialize structured JSON logging
+    logging::init();
+
+    // Log server startup
+    tracing::info!(
+        port = 8080,
+        address = "0.0.0.0",
+        service = "gsazure2",
+        version = env!("CARGO_PKG_VERSION"),
+        "Server started successfully"
+    );
+
     dioxus::launch(App);
 }
 
@@ -80,39 +93,6 @@ fn Navbar() -> Element {
             }
         }
     }
-}
-
-/// Echo component that demonstrates fullstack server functions.
-#[component]
-fn Echo() -> Element {
-    let mut response = use_signal(String::new);
-
-    rsx! {
-        div {
-            id: "echo",
-            h4 { "ServerFn Echo" }
-            input {
-                placeholder: "Type here to echo...",
-                oninput:  move |event| async move {
-                    let data = echo_server(event.value()).await.unwrap();
-                    response.set(data);
-                },
-            }
-
-            if !response().is_empty() {
-                p {
-                    "Server echoed: "
-                    i { "{response}" }
-                }
-            }
-        }
-    }
-}
-
-/// Echo the user input on the server.
-#[server(EchoServer)]
-async fn echo_server(input: String) -> Result<String, ServerFnError> {
-    Ok(input)
 }
 
 #[component]
